@@ -1,0 +1,25 @@
+services:
+  local-language-model:
+    image: ghcr.io/ggml-org/llama.cpp:full-cuda13
+    environment:
+      - LD_LIBRARY_PATH=/usr/lib64
+    devices:
+      - nvidia.com/gpu=all
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./models:/models:ro,Z
+    command:
+      [
+        "-s",
+        "-m",
+        "/models/omnicoder-9b-q4_k_m.gguf",
+        "-c",
+        "32000",
+        "-ngl",
+        "999",
+        "--port",
+        "8080",
+        "--host",
+        "0.0.0.0",
+      ]
