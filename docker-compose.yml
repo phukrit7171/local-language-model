@@ -13,7 +13,7 @@ services:
       [
         "-s",
         "-m",
-        "/models/omnicoder-9b-q4_k_m.gguf",
+        "/models/Qwopus3.5-9B-v3.Q4_K_M.gguf",
         "--cache-type-k",
         "q8_0",
         "--cache-type-v",
