@@ -8,12 +8,14 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./models:/models:ro,Z
+      - ./models:/models:ro,z
     command:
       [
         "-s",
         "-m",
-        "/models/Qwopus3.5-9B-v3.Q4_K_M.gguf",
+        "/models/Qwen3.5-9B-UD-IQ3_XXS.gguf",
+        "--reasoning",
+        "off",
         "--cache-type-k",
         "q8_0",
         "--cache-type-v",
@@ -26,6 +28,31 @@ services:
         "999",
         "--port",
         "8080",
+        "--host",
+        "0.0.0.0",
+      ]
+  local-embeddings:
+    image: ghcr.io/ggml-org/llama.cpp:full-cuda13
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./models:/models:ro,z
+    command:
+      [
+        "-s",
+        "-m",
+        "/models/Qwen3-Embedding-8B.Q4_K_M.gguf",
+        "--embedding",
+        "--cache-type-k",
+        "q8_0",
+        "--cache-type-v",
+        "q4_0",
+        "-fa",
+        "on",
+        "-c",
+        "32000",
+        "--port",
+        "8081",
         "--host",
         "0.0.0.0",
       ]
