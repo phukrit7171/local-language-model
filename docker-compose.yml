@@ -9,13 +9,12 @@ services:
       - "8080:8080"
     volumes:
       - ./models:/models:ro,z
-    command:
-      [
+    command: [
         "-s",
         "-m",
-        "/models/Qwen3.5-9B-UD-IQ3_XXS.gguf",
-        "--reasoning",
-        "off",
+        "/models/Qwen3.6-27B-UD-Q3_K_XL.gguf",
+        # "--reasoning",
+        # "off",
         "--cache-type-k",
         "q8_0",
         "--cache-type-v",
@@ -32,7 +31,18 @@ services:
         "0.0.0.0",
       ]
   local-embeddings:
-    image: ghcr.io/ggml-org/llama.cpp:full-cuda13
+    image: ghcr.io/ggml-org/llama.cpp:full-rocm
+    environment:
+      # สำคัญที่สุด: ทริคหลอก ROCm ให้ยอมรันบน RDNA3 iGPU (8500G)
+      - HSA_OVERRIDE_GFX_VERSION=11.0.0
+    devices:
+      # ต้อง Passthrough อุปกรณ์เหล่านี้เข้าไปใน Container เพื่อให้เข้าถึงฮาร์ดแวร์ AMD ได้
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    group_add:
+      # ให้สิทธิ์ Container ในการเข้าถึงกลุ่มฮาร์ดแวร์เร่งความเร็วบน Linux
+      - video
+      - render
     ports:
       - "8081:8081"
     volumes:
@@ -41,7 +51,7 @@ services:
       [
         "-s",
         "-m",
-        "/models/Qwen3-Embedding-8B.Q4_K_M.gguf",
+        "/models/Qwen3-Embedding-8B.IQ4_XS.gguf",
         "--embedding",
         "--cache-type-k",
         "q8_0",
@@ -51,6 +61,8 @@ services:
         "on",
         "-c",
         "32000",
+        "-ngl",
+        "999",
         "--port",
         "8081",
         "--host",
