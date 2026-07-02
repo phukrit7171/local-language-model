@@ -1,20 +1,23 @@
 services:
   local-language-model:
     image: ghcr.io/ggml-org/llama.cpp:full-cuda13
-    environment:
-      - LD_LIBRARY_PATH=/usr/lib64
     devices:
       - nvidia.com/gpu=all
     ports:
       - "8080:8080"
     volumes:
       - ./models:/models:ro,z
-    command: [
+    command:
+      [
         "-s",
         "-m",
-        "/models/Qwen3.6-27B-UD-Q3_K_XL.gguf",
-        # "--reasoning",
-        # "off",
+        "/models/Qwythos-9B-Claude-Mythos-5-1M-MTP-Q4_K_M.gguf",
+        "--mmproj",
+        "/models/mmproj-Qwythos-9B-Claude-Mythos-5-1M-f16.gguf",
+        "--spec-type",
+        "draft-mtp",
+        "--spec-draft-n-max",
+        "4",
         "--cache-type-k",
         "q8_0",
         "--cache-type-v",
@@ -22,14 +25,15 @@ services:
         "-fa",
         "on",
         "-c",
-        "32000",
+        "32768",
         "-ngl",
         "999",
         "--port",
         "8080",
         "--host",
-        "0.0.0.0",
+        "::",
       ]
+
   local-embeddings:
     image: ghcr.io/ggml-org/llama.cpp:full-rocm
     environment:
@@ -51,8 +55,10 @@ services:
       [
         "-s",
         "-m",
-        "/models/Qwen3-Embedding-8B.IQ4_XS.gguf",
+        "/models/Qwen.Qwen3-VL-Embedding-2B.Q4_K_M.gguf",
         "--embedding",
+        "--image-min-tokens",
+        "1024",
         "--cache-type-k",
         "q8_0",
         "--cache-type-v",
@@ -66,5 +72,5 @@ services:
         "--port",
         "8081",
         "--host",
-        "0.0.0.0",
+        "::",
       ]
