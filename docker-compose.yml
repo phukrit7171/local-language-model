@@ -18,6 +18,7 @@ services:
         "draft-mtp",
         "--spec-draft-n-max",
         "2",
+        "--reasoning-preserve",
         "-b",
         "4096",
         "-ub",
