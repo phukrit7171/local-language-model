@@ -56,6 +56,8 @@ services:
         "-m",
         "/models/Qwen.Qwen3-VL-Embedding-2B.Q4_K_M.gguf",
         "--embedding",
+        "--pooling",
+        "mean",
         "--image-min-tokens",
         "1024",
         "-fa",
