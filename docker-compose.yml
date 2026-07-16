@@ -11,7 +11,7 @@ services:
     command: [
         "-s",
         "-m",
-        "/models/Qwythos-9B-v2-MTP-Q4_K_M.gguf",
+        "/models/Qwythos-9B-v2-Q4_K_M.gguf",
         "--reasoning-preserve",
         "--cache-type-k",
         "q8_0",
