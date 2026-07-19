@@ -13,7 +13,7 @@ services:
         "-m",
         "/models/Qwen3.6-27B-UD-IQ3_XXS.gguf",
         "--mmproj",
-        "/models/mmproj-Qwen3.6-27B-F16.gguf",
+        "/models/mmproj-Qwen3.6-27B-BF16.gguf",
         "--reasoning-preserve",
         "--api-key",
         "${API_KEY}",
