@@ -11,9 +11,9 @@ services:
       [
         "-s",
         "-m",
-        "/models/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-IQ2_M.gguf",
+        "/models/Qwythos-9B-v2-Q4_K_M.gguf",
         "--mmproj",
-        "/models/mmproj-Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-BF16.gguf",
+        "/models/mmproj-Qwythos-9B-v2-BF16.gguf",
         "--reasoning-preserve",
         "--api-key",
         "${API_KEY}",
